@@ -105,12 +105,14 @@ public class AñadirCliente extends JPanel {
 		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, textSize));
 		txtNombre.setColumns(10);
 		txtNombre.setBounds(147, 31, 230, 35);
+		txtNombre.setDocument(new JTextLimit(25));
 		MainPanel.add(txtNombre);
 
 		txtApellido = new JTextField();
 		txtApellido.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtApellido.setColumns(10);
 		txtApellido.setBounds(573, 31, 277, 35);
+		txtApellido.setDocument(new JTextLimit(40));
 		MainPanel.add(txtApellido);
 
 		txtEdad = new JTextField();
@@ -153,6 +155,7 @@ public class AñadirCliente extends JPanel {
 		txtDireccion.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtDireccion.setColumns(10);
 		txtDireccion.setBounds(301, 169, 549, 35);
+		txtDireccion.setDocument(new JTextLimit(70));
 		MainPanel.add(txtDireccion);
 
 		txtProbMedicos = new JTextArea();
@@ -163,6 +166,7 @@ public class AñadirCliente extends JPanel {
 		txtProbMedicos
 				.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		txtProbMedicos.setBounds(301, 300, 549, 223);
+		txtProbMedicos.setDocument(new JTextLimit(200));
 		MainPanel.add(txtProbMedicos);
 		txtProbMedicos.setColumns(100);
 
