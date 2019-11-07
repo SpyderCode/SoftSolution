@@ -32,7 +32,7 @@ import java.awt.event.KeyEvent;
 
 public class MostrarClientes extends JPanel {
 	public GymBreak principal;
-	private JTextField txtNumTel;
+	public JTextField txtNumTel;
 	private JTextArea ProbMedicos;
 	private JTable tabledatos;
 	private JTable tabledatosEntrada;
@@ -51,7 +51,7 @@ public class MostrarClientes extends JPanel {
 
 		JPanel MainPanel = new JPanel();
 		MainPanel.setBackground(Color.WHITE);
-		MainPanel.setBounds(0, 0, 1137, 548);
+		MainPanel.setBounds(0, 0, 1068, 488);
 		add(MainPanel);
 		MainPanel.setLayout(null);
 
@@ -85,7 +85,7 @@ public class MostrarClientes extends JPanel {
 		tabledatosEntrada = new JTable();
 		tabledatosEntrada.setFont(new Font("Tahoma", Font.PLAIN, textSize));
 		scrollpaneEntradas.setBorder(border);
-		scrollpaneEntradas.setBounds(833, 162, 278, 165);
+		scrollpaneEntradas.setBounds(833, 162, 223, 161);
 		scrollpaneEntradas.getViewport().setBackground(Color.WHITE);
 		MainPanel.add(scrollpaneEntradas);
 
@@ -212,25 +212,25 @@ public class MostrarClientes extends JPanel {
 		lblEntradas.setBackground(Color.LIGHT_GRAY);
 		lblEntradas.setForeground(Color.BLACK);
 		lblEntradas.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblEntradas.setBounds(1031, 124, 80, 28);
+		lblEntradas.setBounds(976, 121, 80, 28);
 		MainPanel.add(lblEntradas);
 
 		// ScrollPaneClientes
-		scrollPaneClientes.setBounds(12, 159, 785, 376);
+		scrollPaneClientes.setBounds(12, 159, 781, 316);
 		scrollPaneClientes.getViewport().setBackground(Color.WHITE);
 		MainPanel.add(scrollPaneClientes);
 
 		JLabel lblDiasParaPagar = new JLabel("Dias para pagar");
 		lblDiasParaPagar.setForeground(Color.BLACK);
 		lblDiasParaPagar.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblDiasParaPagar.setBounds(954, 15, 157, 25);
+		lblDiasParaPagar.setBounds(899, 15, 157, 25);
 		MainPanel.add(lblDiasParaPagar);
 
 		lblDiasFaltantes = new JLabel("");
 		lblDiasFaltantes.setForeground(Color.BLACK);
 		lblDiasFaltantes.setBackground(Color.WHITE);
 		lblDiasFaltantes.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblDiasFaltantes.setBounds(954, 51, 135, 28);
+		lblDiasFaltantes.setBounds(899, 51, 135, 28);
 		lblDiasFaltantes.setBorder(border);
 		MainPanel.add(lblDiasFaltantes);
 
@@ -241,19 +241,19 @@ public class MostrarClientes extends JPanel {
 
 		JLabel lblFechaDeUltimo = new JLabel("Ultimo Pago");
 		lblFechaDeUltimo.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblFechaDeUltimo.setBounds(808, 13, 157, 28);
+		lblFechaDeUltimo.setBounds(753, 13, 157, 28);
 		MainPanel.add(lblFechaDeUltimo);
 
 		lblUltimoPago = new JLabel("");
 		lblUltimoPago.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblUltimoPago.setBounds(807, 51, 135, 28);
+		lblUltimoPago.setBounds(752, 51, 135, 28);
 		lblUltimoPago.setBorder(border);
 		MainPanel.add(lblUltimoPago);
 
 		lblProbmedicos = new JLabel("ProbMedicos");
 		lblProbmedicos.setBackground(Color.WHITE);
 		lblProbmedicos.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblProbmedicos.setBounds(998, 336, 113, 28);
+		lblProbmedicos.setBounds(943, 334, 113, 28);
 		MainPanel.add(lblProbmedicos);
 
 		JButton btnActualizarTabla = new JButton("Actualizar Tabla");
@@ -271,24 +271,29 @@ public class MostrarClientes extends JPanel {
 
 		ProbMedicos = new JTextArea();
 		ProbMedicos.setFont(new Font("Tahoma", Font.PLAIN, textSize));
-		ProbMedicos.setBounds(833, 364, 278, 171);
+		ProbMedicos.setBounds(833, 364, 223, 111);
 		ProbMedicos.setBorder(border);
 		MainPanel.add(ProbMedicos);
 
 		JButton btnElIminarCliente = new JButton("Eliminar Cliente");
 		btnElIminarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				try {//elimina el cliente seleccionado
-					principal.lista.eleminarClientes(NumTely);
-					JOptionPane.showMessageDialog(null, "Cliente borrado con Exito", "Exito",
-							JOptionPane.DEFAULT_OPTION);
-					ProbMedicos.setText(null);
-					
-					//Actualiza la tabla
-					actualizar();
-					//Guarda el documento
-					principal.save();
+
+				try {// elimina el cliente seleccionado
+					if (JOptionPane.showConfirmDialog(null, "¿Seguro que quiere borrar este cliente?", "ADVERTENCIA",
+							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						principal.lista.eleminarClientes(NumTely);
+						JOptionPane.showMessageDialog(null, "Cliente borrado con Exito", "Exito",
+								JOptionPane.DEFAULT_OPTION);
+						ProbMedicos.setText(null);
+
+						// Actualiza la tabla
+						actualizar();
+						// Guarda el documento
+						principal.save();
+					} else {
+						System.out.println("That was a close one");
+					}
 
 				} catch (NullPointerException ex) {
 					JOptionPane.showMessageDialog(null, "Error: Selecciona a una persona con el mouse", "ERROR",
@@ -301,7 +306,7 @@ public class MostrarClientes extends JPanel {
 		btnElIminarCliente.setForeground(Color.BLACK);
 		btnElIminarCliente.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnElIminarCliente.setBackground(Color.WHITE);
-		btnElIminarCliente.setBounds(455, 78, 180, 33);
+		btnElIminarCliente.setBounds(753, 92, 180, 33);
 		MainPanel.add(btnElIminarCliente);
 
 		JLabel lblBackground = new JLabel("");

@@ -25,10 +25,10 @@ import java.awt.event.KeyEvent;
 
 public class AñadirCliente extends JPanel {
 	public GymBreak principal;
-	private JTextField txtNumTel;
+	public JTextField txtNumTel;
 	private JTextField txtNombre;
 	private JTextField txtApellido;
-	private JTextField txtEdad;
+	public JTextField txtEdad;
 	private JTextField txtDireccion;
 	private JTextArea txtProbMedicos;
 	int textSize = 18;
@@ -40,7 +40,7 @@ public class AñadirCliente extends JPanel {
 
 		JPanel MainPanel = new JPanel();
 		MainPanel.setBackground(Color.WHITE);
-		MainPanel.setBounds(0, 0, 1137, 548);
+		MainPanel.setBounds(0, 0, 1068, 488);
 		add(MainPanel);
 		MainPanel.setLayout(null);
 
@@ -61,7 +61,7 @@ public class AñadirCliente extends JPanel {
 
 		JLabel lblNewLabel = new JLabel("Sexo");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
-		lblNewLabel.setBounds(358, 91, 69, 41);
+		lblNewLabel.setBounds(358, 91, 131, 41);
 		MainPanel.add(lblNewLabel);
 
 		JLabel lblEdad = new JLabel("Edad");
@@ -95,13 +95,24 @@ public class AñadirCliente extends JPanel {
 			}
 		});
 		txtNumTel.setFont(new Font("Tohoma", Font.PLAIN, textSize));
-		txtNumTel.setBounds(301, 228, 549, 35);
+		txtNumTel.setBounds(301, 228, 494, 35);
 		txtNumTel.setDocument(new JTextLimit(10));
 
 		MainPanel.add(txtNumTel);
 		txtNumTel.setColumns(10);
 
 		txtNombre = new JTextField();
+		txtNombre.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				char ch=ke.getKeyChar();
+				if (!Character.isDigit(ch)) {
+					txtNombre.setEditable(true);
+				} else {
+					txtNombre.setEditable(false);
+				}
+			}
+		});
 		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, textSize));
 		txtNombre.setColumns(10);
 		txtNombre.setBounds(147, 31, 230, 35);
@@ -109,9 +120,20 @@ public class AñadirCliente extends JPanel {
 		MainPanel.add(txtNombre);
 
 		txtApellido = new JTextField();
+		txtApellido.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				char ch=ke.getKeyChar();
+				if (!Character.isDigit(ch)) {
+					txtApellido.setEditable(true);
+				} else {
+					txtApellido.setEditable(false);
+				}
+			}
+		});
 		txtApellido.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtApellido.setColumns(10);
-		txtApellido.setBounds(573, 31, 277, 35);
+		txtApellido.setBounds(573, 31, 222, 35);
 		txtApellido.setDocument(new JTextLimit(40));
 		MainPanel.add(txtApellido);
 
@@ -140,21 +162,21 @@ public class AñadirCliente extends JPanel {
 		JRadioButton rdbtnMasculino = new JRadioButton("Masculino");
 		rdbtnMasculino.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		rdbtnMasculino.setBackground(Color.WHITE);
-		rdbtnMasculino.setBounds(449, 100, 155, 29);
+		rdbtnMasculino.setBounds(497, 102, 155, 29);
 		sexo.add(rdbtnMasculino);
 		MainPanel.add(rdbtnMasculino);
 
 		JRadioButton rdbtnFemenino = new JRadioButton("Femenino");
 		rdbtnFemenino.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		rdbtnFemenino.setBackground(Color.WHITE);
-		rdbtnFemenino.setBounds(612, 98, 167, 32);
+		rdbtnFemenino.setBounds(660, 100, 167, 32);
 		sexo.add(rdbtnFemenino);
 		MainPanel.add(rdbtnFemenino);
 
 		txtDireccion = new JTextField();
 		txtDireccion.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtDireccion.setColumns(10);
-		txtDireccion.setBounds(301, 169, 549, 35);
+		txtDireccion.setBounds(301, 169, 494, 35);
 		txtDireccion.setDocument(new JTextLimit(70));
 		MainPanel.add(txtDireccion);
 
@@ -165,7 +187,7 @@ public class AñadirCliente extends JPanel {
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		txtProbMedicos
 				.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-		txtProbMedicos.setBounds(301, 300, 549, 223);
+		txtProbMedicos.setBounds(301, 300, 494, 175);
 		txtProbMedicos.setDocument(new JTextLimit(200));
 		MainPanel.add(txtProbMedicos);
 		txtProbMedicos.setColumns(100);
@@ -178,7 +200,7 @@ public class AñadirCliente extends JPanel {
 				borrarCajas();
 			}
 		});
-		btnCancelar.setBounds(892, 496, 114, 39);
+		btnCancelar.setBounds(835, 449, 114, 39);
 		MainPanel.add(btnCancelar);
 
 		JButton btnAceptra = new JButton("Aceptar");
@@ -213,6 +235,8 @@ public class AñadirCliente extends JPanel {
 					padre.lista.altaClientes(clientex);
 					padre.save();
 
+
+
 					// Debug
 					System.out.println("Cliente añadido a lista");
 					// Bora las cajas de texto
@@ -227,12 +251,12 @@ public class AñadirCliente extends JPanel {
 				}
 			}
 		});
-		btnAceptra.setBounds(1011, 496, 114, 39);
+		btnAceptra.setBounds(954, 449, 114, 39);
 		MainPanel.add(btnAceptra);
 
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(AñadirCliente.class.getResource("/Logos/Logo_White.jpeg")));
-		label.setBounds(909, 0, 466, 448);
+		label.setBounds(835, 0, 466, 448);
 		MainPanel.add(label);
 	}
 

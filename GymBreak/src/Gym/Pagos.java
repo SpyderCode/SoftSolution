@@ -32,10 +32,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Pagos extends JPanel {
-	private JTextField NumTeltxt;
+	public JTextField NumTeltxt;
 	private JTextField Tipotxt;
 	private JTextField Mesestxt;
 	public GymBreak principal;
+	public JPanel panel;
 
 	public Pagos(GymBreak padre) {
 		principal = padre;
@@ -45,7 +46,7 @@ public class Pagos extends JPanel {
 
 		JPanel MainPanel = new JPanel();
 		MainPanel.setBackground(Color.WHITE);
-		MainPanel.setBounds(0, 0, 1137, 548);
+		MainPanel.setBounds(0, 0, 1068, 488);
 		add(MainPanel);
 		MainPanel.setLayout(null);
 
@@ -73,12 +74,12 @@ public class Pagos extends JPanel {
 		NumTeltxt.setDocument(new JTextLimit(10));
 		MainPanel.add(NumTeltxt);
 
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setLayout(null);
 		panel.setOpaque(false);
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos", TitledBorder.LEADING,
 				TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 20), Color.BLACK)); //El borde chido
-		panel.setBounds(12, 101, 527, 434);
+		panel.setBounds(12, 101, 527, 374);
 		MainPanel.add(panel);
 
 		JLabel Nombrelbl = new JLabel("Nombre");
@@ -117,7 +118,7 @@ public class Pagos extends JPanel {
 		Tipotxt.setBorder(border);
 		Tipotxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		Tipotxt.setColumns(10);
-		Tipotxt.setBounds(772, 129, 320, 33);
+		Tipotxt.setBounds(772, 129, 284, 33);
 		Tipotxt.setDocument(new JTextLimit(30));
 		MainPanel.add(Tipotxt);
 
@@ -137,7 +138,7 @@ public class Pagos extends JPanel {
 		Mesestxt.setBorder(border);
 		Mesestxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		Mesestxt.setColumns(10);
-		Mesestxt.setBounds(926, 259, 166, 33);
+		Mesestxt.setBounds(926, 259, 130, 33);
 		Mesestxt.setDocument(new JTextLimit(5));
 		MainPanel.add(Mesestxt);
 
@@ -149,7 +150,7 @@ public class Pagos extends JPanel {
 		JLabel Diatxt = new JLabel("" + LocalDate.now());
 		Diatxt.setBorder(border);
 		Diatxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		Diatxt.setBounds(772, 187, 320, 38);
+		Diatxt.setBounds(772, 187, 284, 38);
 		MainPanel.add(Diatxt);
 
 		JButton btnDarAlta = new JButton("Dar de Alta");
@@ -198,7 +199,7 @@ public class Pagos extends JPanel {
 				return principal.lista.clientes.get(posx);
 			}
 		});
-		btnDarAlta.setBounds(962, 496, 152, 39);
+		btnDarAlta.setBounds(904, 436, 152, 39);
 		MainPanel.add(btnDarAlta);
 
 		JButton btnBuscar = new JButton("Buscar");

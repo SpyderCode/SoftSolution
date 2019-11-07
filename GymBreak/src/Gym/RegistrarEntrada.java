@@ -30,7 +30,7 @@ import java.awt.event.KeyEvent;
 public class RegistrarEntrada extends JPanel {
 
 	public GymBreak principal;
-	private JTextField txtNumTel;
+	public JTextField txtNumTel;
 
 	LocalDate Hoy;
 	LocalTime Hora;
@@ -46,7 +46,7 @@ public class RegistrarEntrada extends JPanel {
 
 		JPanel MainPanel = new JPanel();
 		MainPanel.setBackground(Color.WHITE);
-		MainPanel.setBounds(0, 0, 1137, 548);
+		MainPanel.setBounds(0, 0, 1068, 488);
 		add(MainPanel);
 		MainPanel.setLayout(null);
 
@@ -105,7 +105,7 @@ public class RegistrarEntrada extends JPanel {
 		JTextArea ProbMedicotxt = new JTextArea();
 		ProbMedicotxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		ProbMedicotxt.setBorder(border);
-		ProbMedicotxt.setBounds(12, 232, 461, 189);
+		ProbMedicotxt.setBounds(12, 232, 461, 143);
 		DatosPanel.add(ProbMedicotxt);
 
 		JLabel ProbMedicolbl = new JLabel("Problemas medicos");
@@ -144,7 +144,7 @@ public class RegistrarEntrada extends JPanel {
 
 		JTextField Fechatxt = new JTextField();
 		Fechatxt.setFont(new Font("Tahoma", Font.PLAIN, textSize));
-		Fechatxt.setBounds(742, 108, 315, 38);
+		Fechatxt.setBounds(742, 108, 241, 38);
 		Fechatxt.setBorder(border);
 		Fechatxt.setText("" + LocalDate.now());
 		MainPanel.add(Fechatxt);
@@ -157,7 +157,7 @@ public class RegistrarEntrada extends JPanel {
 		JTextField Horatxt = new JTextField();
 		Horatxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		Horatxt.setBorder(border);
-		Horatxt.setBounds(742, 167, 315, 38);
+		Horatxt.setBounds(742, 167, 241, 38);
 		Horatxt.setText("" + LocalTime.now());
 		MainPanel.add(Horatxt);
 
@@ -169,7 +169,7 @@ public class RegistrarEntrada extends JPanel {
 		JLabel DiasFalttxt = new JLabel("");
 		DiasFalttxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		DiasFalttxt.setBorder(border);
-		DiasFalttxt.setBounds(855, 259, 202, 38);
+		DiasFalttxt.setBounds(855, 259, 128, 38);
 		MainPanel.add(DiasFalttxt);
 
 		JButton btnBuscar = new JButton("Buscar");
@@ -194,6 +194,7 @@ public class RegistrarEntrada extends JPanel {
 					Edadtxt.setText("" + getCliente(posx).getEdad());
 					Sexotxt.setText("" + getCliente(posx).getSexo());
 					ProbMedicotxt.setText(detallesMedicosx);
+					Horatxt.setText(""+LocalTime.now());
 
 					// if else para no obtener errores
 					if (getCliente(posx).getPago() == null) {// Si no tiene pagos, no pasa nada
@@ -261,7 +262,7 @@ public class RegistrarEntrada extends JPanel {
 
 			}
 		});
-		EntradaBtn.setBounds(973, 496, 152, 39);
+		EntradaBtn.setBounds(905, 449, 152, 39);
 		MainPanel.add(EntradaBtn);
 
 		JLabel BackGround = new JLabel("");
