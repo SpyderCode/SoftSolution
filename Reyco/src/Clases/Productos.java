@@ -33,19 +33,19 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.Label;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 public class Productos extends JFrame{
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField idProducto;
+	private JTextField Nombre;
+	private JTextField Marca;
+	private JTextField Descripcion;
+	private JTextField Cantidad;
 	private JTable table;
-	private JTextField textField_5;
+	private JTextField buscar;
 
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -63,51 +63,37 @@ public class Productos extends JFrame{
 	 */
 	
 	public Productos() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Productos.class.getResource("/iconos/LogoInter.png")));
+		setTitle("Inventario");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setForeground(Color.BLACK);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 777, 436);
+		setBounds(100, 100, 776, 500);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.RED);
-		contentPane.setForeground(Color.YELLOW);
+		contentPane.setBackground(SystemColor.windowBorder);
+		contentPane.setForeground(SystemColor.text);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Guardar");
-		btnNewButton.addActionListener(new ActionListener() {
-			private JEditorPane idProducto;
-			private JEditorPane nombre;
-		    private JEditorPane descripcion;
-			private JEditorPane cantidad;
-		    private JEditorPane marca;
-			
-			
-			
-			
-		
-			
-
+		JButton btGuardar = new JButton("Guardar");
+		btGuardar.setBackground(SystemColor.menu);
+		btGuardar.setIcon(new ImageIcon(Productos.class.getResource("/iconos/guardar.png")));
+		btGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				java.sql.PreparedStatement ps = null;
 				try {
-				Conexion ObjCon = new Conexion();
-				Connection conn = ObjCon.getConection();
-				ps = conn.prepareStatement("INSERT INTO inventario(idProducto,nombre,descripcion,cantidad,marca) VALUES(?,?,?,?,?)");
-
-				idProducto = null;
-		        ps.setString(1, idProducto.getText());
-				cantidad = null;
-				ps.setString(2, cantidad.getText());
-				marca = null;
-				ps.setString(3, marca.getText());
-				nombre = null;
-				ps.setString(4, nombre.getText());		
-				descripcion = null;
-				ps.setString(4, descripcion.getText());	
+		       //Conexion ObjCon = new Conexion();
+				Connection conn = Conexion.getConection();
+				ps = conn.prepareStatement("INSERT INTO inventario(idProducto,nombre,marca,descripcion,Cantidad) VALUES(?,?,?,?,?)");
+				ps.setString(1, idProducto.getText());
+		        ps.setString(2, Cantidad.getText());
+				ps.setString(3, Marca.getText());
+				ps.setString(4, Descripcion.getText());
+				ps.setString(5, Cantidad.getText());
 				ps.execute();				
 				
-				JOptionPane.showMessageDialog(null," Guardado Correctamente");
+				JOptionPane.showMessageDialog(null,"Id Guardado");
 				
 
 				} catch (Exception ex) {
@@ -115,26 +101,25 @@ public class Productos extends JFrame{
 				JOptionPane.showMessageDialog(null,"Error al Guardar");
 				System.out.println(ex);
 				}
-			}
+			}		
 		});
-		btnNewButton.setBounds(66, 338, 89, 23);
-		contentPane.add(btnNewButton);
+		btGuardar.setBounds(292, 415, 110, 33);
+		contentPane.add(btGuardar);
 		
-		JButton btnNewButton_1 = new JButton("Actualizar");
-		btnNewButton_1.setBounds(217, 338, 105, 23);
-		contentPane.add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("Eliminar");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton BtEliminar = new JButton("Eliminar");
+		BtEliminar.setBackground(SystemColor.menu);
+		BtEliminar.setIcon(new ImageIcon(Productos.class.getResource("/iconos/eliminar.png")));
+		BtEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				java.sql.PreparedStatement ps = null;
 				try {
+				@SuppressWarnings("unused")
 				Conexion ObjCon = new Conexion();
-				Connection conn = ObjCon.getConection();
+				Connection conn = Conexion.getConection();
     int Fila = table.getSelectedRow();
     String idObj = table.getValueAt(Fila, 0).toString();
 
-    ps = conn.prepareStatement("DELETE FROM inventario WHERE id=?");
+    ps = conn.prepareStatement("DELETE FROM inventario WHERE idProducto=?");
     ps.setString(1, idObj);
     ps.execute();
 
@@ -145,13 +130,15 @@ System.out.println(ex.toString());
 			}
 		});
 		
-		btnNewButton_2.setBounds(353, 338, 89, 23);
-		contentPane.add(btnNewButton_2);
+		BtEliminar.setBounds(453, 415, 119, 33);
+		contentPane.add(BtEliminar);
 		
-		JButton btnNewButton_3 = new JButton("Ver Datos");
-		btnNewButton_3.addActionListener(new ActionListener() {
+		JButton Btver = new JButton("Ver Datos");
+		Btver.setBackground(SystemColor.menu);
+		Btver.setIcon(new ImageIcon(Productos.class.getResource("/iconos/MostraV2.png")));
+		Btver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String Campo = lblBuscar.getText();
+				String Campo = buscar.getText();
 				String where = "";
 
 				if (!"".equals(Campo))
@@ -163,10 +150,11 @@ System.out.println(ex.toString());
 					table.setModel(modelo);
 					PreparedStatement ps = null;
 					ResultSet rs = null;
+					@SuppressWarnings("unused")
 					Conexion conn = new Conexion();
-					Connection con = conn.getConection();
+					Connection con = Conexion.getConection();
 					
-					String sql = "SELECT idProducto,marca,nombre,cantidad,descripcion  FROM inventario " + where;
+					String sql = "SELECT idProducto,nombre,marca,descripcion,Cantidad  FROM inventario " + where;
 					System.out.println(sql);
 					ps = (PreparedStatement) con.prepareStatement(sql);
 					rs = ps.executeQuery();
@@ -198,39 +186,40 @@ System.out.println(ex.toString());
 				 }
 			}
 		});
-		btnNewButton_3.setBounds(509, 338, 119, 23);
-		contentPane.add(btnNewButton_3);
+		Btver.setBounds(601, 415, 133, 33);
+		contentPane.add(Btver);
 		
-		textField = new JTextField();
-		textField.setBounds(80, 75, 86, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		idProducto = new JTextField();
+		idProducto.setBounds(80, 133, 86, 20);
+		contentPane.add(idProducto);
+		idProducto.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(80, 118, 86, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		Nombre = new JTextField();
+		Nombre.setBounds(80, 177, 86, 20);
+		contentPane.add(Nombre);
+		Nombre.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(80, 161, 86, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		Marca = new JTextField();
+		Marca.setBounds(80, 223, 86, 20);
+		contentPane.add(Marca);
+		Marca.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(80, 205, 86, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		Descripcion = new JTextField();
+		Descripcion.setBounds(80, 272, 86, 20);
+		contentPane.add(Descripcion);
+		Descripcion.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(80, 254, 86, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		Cantidad = new JTextField();
+		Cantidad.setBounds(80, 320, 86, 20);
+		contentPane.add(Cantidad);
+		Cantidad.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(270, 51, 463, 248);
+		scrollPane.setBounds(270, 89, 463, 273);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
+		table.setShowGrid(false);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null, null},
@@ -251,26 +240,28 @@ System.out.println(ex.toString());
 		scrollPane.setViewportView(table);
 		
 		JLabel lblId = DefaultComponentFactory.getInstance().createLabel("ID:");
-		lblId.setBounds(10, 78, 51, 14);
+		lblId.setBounds(19, 136, 51, 14);
 		contentPane.add(lblId);
 		
 		JLabel lblNombre = DefaultComponentFactory.getInstance().createLabel("Nombre:");
-		lblNombre.setBounds(10, 121, 92, 14);
+		lblNombre.setBounds(10, 180, 60, 14);
 		contentPane.add(lblNombre);
 		
 		JLabel lblMarca = DefaultComponentFactory.getInstance().createLabel("Marca:");
-		lblMarca.setBounds(10, 164, 92, 14);
+		lblMarca.setBounds(10, 226, 60, 14);
 		contentPane.add(lblMarca);
 		
 		JLabel lblDes = DefaultComponentFactory.getInstance().createLabel("Descripcion:");
-		lblDes.setBounds(10, 208, 92, 14);
+		lblDes.setBounds(10, 275, 74, 14);
 		contentPane.add(lblDes);
 		
 		JLabel lblCantidad = DefaultComponentFactory.getInstance().createLabel("Cantidad:");
-		lblCantidad.setBounds(10, 257, 92, 14);
+		lblCantidad.setBounds(10, 323, 68, 14);
 		contentPane.add(lblCantidad);
 		
 		JButton btnNewButton_4 = new JButton("Regresar");
+		btnNewButton_4.setBackground(SystemColor.menu);
+		btnNewButton_4.setIcon(new ImageIcon(Productos.class.getResource("/iconos/regresar.png")));
 		btnNewButton_4.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0) {
@@ -279,18 +270,33 @@ System.out.println(ex.toString());
 				Productos.this.dispose();
 			}
 		});
-		btnNewButton_4.setBounds(644, 17, 89, 23);
+		btnNewButton_4.setBounds(615, 21, 118, 31);
 		contentPane.add(btnNewButton_4);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(80, 296, 86, 20);
-		contentPane.add(textField_5);
-		textField_5.setColumns(10);
+		buscar = new JTextField();
+		buscar.setBounds(80, 415, 86, 20);
+		contentPane.add(buscar);
+		buscar.setColumns(10);
 		
 		JLabel lblBuscar = DefaultComponentFactory.getInstance().createLabel("Buscar:");
-		lblBuscar.setBounds(17, 299, 44, 14);
+		lblBuscar.setBounds(17, 418, 44, 14);
 		contentPane.add(lblBuscar);
 		
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(Productos.class.getResource("/iconos/REYCOLogoMediano.png")));
+		label.setBounds(19, 11, 213, 71);
+		contentPane.add(label);
+		
+		JLabel label_1 = new JLabel("");
+		label_1.setIcon(new ImageIcon(Productos.class.getResource("/Imagenes/REYCOTRA.png")));
+		label_1.setBounds(0, 0, 760, 461);
+		contentPane.add(label_1);
+		
 	}
-
-}
+   public void transparencia() {
+	   
+		}
+   {
+    	
+     }
+    	}

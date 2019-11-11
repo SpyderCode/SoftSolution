@@ -2,14 +2,12 @@ package Clases;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-//import com.mysql.jdbc.PreparedStatement;
 import Logica.Conexion;
 
 import javax.swing.JLabel;
@@ -25,6 +23,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.ImageIcon;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 public class Apartado extends JFrame {
 
@@ -56,19 +57,28 @@ public class Apartado extends JFrame {
 	 * Create the frame.
 	 */
 	public Apartado() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Apartado.class.getResource("/iconos/LogoInter.png")));
+		setResizable(false);
+		setTitle("Apartados ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 720, 400);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.RED);
+		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel label_1 = new JLabel("");
+		label_1.setIcon(new ImageIcon(Apartado.class.getResource("/iconos/REYCOLogoMediano.png")));
+		label_1.setBounds(0, 0, 200, 75);
+		contentPane.add(label_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(204, 65, 490, 140);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
+		table.setShowGrid(false);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null},
@@ -86,6 +96,7 @@ public class Apartado extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		JLabel label = new JLabel("ID:");
+		label.setForeground(SystemColor.text);
 		label.setFont(new Font("Dialog", Font.PLAIN, 14));
 		label.setBounds(10, 86, 25, 14);
 		contentPane.add(label);
@@ -96,53 +107,58 @@ public class Apartado extends JFrame {
 		contentPane.add(id);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setForeground(SystemColor.text);
 		lblNombre.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblNombre.setBounds(4, 111, 66, 14);
+		lblNombre.setBounds(0, 117, 66, 14);
 		contentPane.add(lblNombre);
 		
 		nombre = new JTextField();
 		nombre.setColumns(10);
-		nombre.setBounds(73, 110, 121, 20);
+		nombre.setBounds(73, 116, 121, 20);
 		contentPane.add(nombre);
 		
 		direccion = new JTextField();
 		direccion.setColumns(10);
-		direccion.setBounds(73, 135, 121, 20);
+		direccion.setBounds(73, 147, 121, 20);
 		contentPane.add(direccion);
 		
 		JLabel lblDomicilio = new JLabel("Direccion:");
+		lblDomicilio.setForeground(SystemColor.text);
 		lblDomicilio.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblDomicilio.setBounds(4, 136, 66, 14);
+		lblDomicilio.setBounds(0, 148, 66, 14);
 		contentPane.add(lblDomicilio);
 		
 		JLabel lblEstatus = new JLabel("Estatus:");
+		lblEstatus.setForeground(SystemColor.text);
 		lblEstatus.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblEstatus.setBounds(4, 161, 66, 14);
+		lblEstatus.setBounds(0, 191, 66, 14);
 		contentPane.add(lblEstatus);
 		
 		estatus = new JTextField();
 		estatus.setColumns(10);
-		estatus.setBounds(73, 160, 121, 20);
+		estatus.setBounds(73, 185, 121, 20);
 		contentPane.add(estatus);
 		
 		JLabel lblBuscar = new JLabel("Buscar:");
+		lblBuscar.setForeground(SystemColor.text);
 		lblBuscar.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblBuscar.setBounds(4, 186, 61, 14);
+		lblBuscar.setBounds(10, 311, 61, 14);
 		contentPane.add(lblBuscar);
 		
 		JButton button = new JButton("Guardar");
+		button.setBackground(SystemColor.menu);
+		button.setIcon(new ImageIcon(Apartado.class.getResource("/iconos/guardar.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				java.sql.PreparedStatement ps = null;
 				try {
-				Conexion ObjCon = new Conexion();
-				Connection conn = ObjCon.getConection();
-				ps = conn.prepareStatement("INSERT INTO apartado(idapartado, nombre, direccion, estatus) VALUES(?,?,?,?)");
-
-				ps.setString(1, id.getText());
-				ps.setString(2, nombre.getText());
-				ps.setString(3, direccion.getText());
-				ps.setString(4, estatus.getText());			
+				//Conexion ObjCon = new Conexion();
+				Connection conn = Conexion.getConection();
+				ps = conn.prepareStatement("INSERT INTO apartado(nombre, direccion, estatus, idapartado) VALUES(?,?,?,?)");			
+				ps.setString(1, nombre.getText());
+				ps.setString(2, direccion.getText());
+				ps.setString(3, estatus.getText());
+				ps.setString(4, id.getText());
 				ps.execute();				
 				
 				JOptionPane.showMessageDialog(null," Guardado");
@@ -157,15 +173,17 @@ public class Apartado extends JFrame {
 
 			
 		});
-		button.setBounds(262, 315, 89, 23);
+		button.setBounds(237, 303, 114, 35);
 		contentPane.add(button);
 		
 		buscar = new JTextField();
 		buscar.setColumns(10);
-		buscar.setBounds(73, 185, 121, 20);
+		buscar.setBounds(73, 310, 121, 20);
 		contentPane.add(buscar);
 		
 		JButton button_1 = new JButton("Eliminar");
+		button_1.setBackground(SystemColor.menu);
+		button_1.setIcon(new ImageIcon(Apartado.class.getResource("/iconos/eliminar.png")));
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				java.sql.PreparedStatement ps = null;
@@ -175,7 +193,7 @@ public class Apartado extends JFrame {
     int Fila = table.getSelectedRow();
     String idObj = table.getValueAt(Fila, 0).toString();
 
-    ps = conn.prepareStatement("DELETE FROM apartado WHERE id=?");
+    ps = conn.prepareStatement("DELETE FROM apartado WHERE idapartado=?");
     ps.setString(1, idObj);
     ps.execute();
 
@@ -185,10 +203,12 @@ System.out.println(ex.toString());
 } 
 			}
 		});
-		button_1.setBounds(425, 315, 89, 23);
+		button_1.setBounds(407, 303, 121, 35);
 		contentPane.add(button_1);
 		
 		JButton button_3 = new JButton("Ver datos");
+		button_3.setIcon(new ImageIcon(Apartado.class.getResource("/iconos/MostraV2.png")));
+		button_3.setBackground(SystemColor.menu);
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String Campo = buscar.getText();
@@ -196,7 +216,7 @@ System.out.println(ex.toString());
 
 				if (!"".equals(Campo))
 				{
-				where = "WHERE id = '" + Campo + "'";
+				where = "WHERE idapartado = '" + Campo + "'";
 				}
 				try {
 					DefaultTableModel modelo = new DefaultTableModel();
@@ -204,9 +224,9 @@ System.out.println(ex.toString());
 					PreparedStatement ps = null;
 					ResultSet rs = null;
 					Conexion conn = new Conexion();
-					Connection con = conn.getConection();
+					Connection con = Conexion.getConection();
 					
-					String sql = "SELECT idproducto, nombre, direccion, estatus  FROM apartado " + where;
+					String sql = "SELECT idapartado, nombre, direccion, estatus  FROM apartado " + where;
 					System.out.println(sql);
 					ps = (PreparedStatement) con.prepareStatement(sql);
 					rs = ps.executeQuery();
@@ -237,10 +257,12 @@ System.out.println(ex.toString());
 				 }
 			}
 		});
-		button_3.setBounds(605, 315, 89, 23);
+		button_3.setBounds(573, 303, 121, 35);
 		contentPane.add(button_3);
 		
 		JButton button_4 = new JButton("Regresar");
+		button_4.setBackground(SystemColor.menu);
+		button_4.setIcon(new ImageIcon(Apartado.class.getResource("/iconos/regresar.png")));
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Menu mn = new Menu();
@@ -249,8 +271,13 @@ System.out.println(ex.toString());
 			}
 			
 		});
-		button_4.setBounds(605, 11, 89, 23);
+		button_4.setBounds(573, 11, 121, 29);
 		contentPane.add(button_4);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(Apartado.class.getResource("/Imagenes/IMG_1092.png")));
+		lblNewLabel.setBounds(0, 0, 714, 371);
+		contentPane.add(lblNewLabel);
 	}
 	
 

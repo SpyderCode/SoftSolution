@@ -17,14 +17,12 @@ import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.SystemColor;
+import javax.swing.SwingConstants;
+import java.awt.Window.Type;
+import java.awt.Toolkit;
 
-/*
- *  grant all privileges on reyco.* to 'invitado'@'localhost' identified by 'invitado'
-     with grant option;
 
- grant all privileges on reyco.* to 'Administrador'@'localhost' identified by 'admin'
-     with grant option;
- */
 public class LoginUser extends JFrame {
 
 	private JPanel contentPane;
@@ -53,13 +51,18 @@ public class LoginUser extends JFrame {
 	 */
 	public LoginUser() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 444, 252);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginUser.class.getResource("/iconos/LogoInter.png")));
+		setType(Type.POPUP);
+		setTitle("Bienvenido");
+		setBounds(100, 100, 439, 252);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Ingresar");
+		btnNewButton.setHorizontalAlignment(SwingConstants.LEADING);
+		btnNewButton.setBackground(SystemColor.controlHighlight);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Logica.Conexion.setcuenta(usuariotxt.getText(), passwordtxt.getText());
@@ -79,7 +82,7 @@ public class LoginUser extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(336, 186, 85, 23);
+		btnNewButton.setBounds(331, 186, 82, 23);
 		contentPane.add(btnNewButton);
 		
 		usuariotxt = new JTextField();
@@ -94,17 +97,18 @@ public class LoginUser extends JFrame {
 		
 		JLabel label = new JLabel("Usuario:");
 		label.setForeground(Color.RED);
-		label.setFont(new Font("SansSerif", Font.BOLD, 12));
-		label.setBounds(10, 189, 47, 14);
+		label.setFont(new Font("Script MT Bold", Font.BOLD, 14));
+		label.setBounds(0, 191, 67, 18);
 		contentPane.add(label);
 		
 		JLabel label_1 = new JLabel("Contrase\u00F1a:");
 		label_1.setForeground(Color.RED);
-		label_1.setFont(new Font("SansSerif", Font.BOLD, 12));
-		label_1.setBounds(159, 189, 75, 14);
+		label_1.setFont(new Font("Script MT Bold", Font.PLAIN, 15));
+		label_1.setBounds(159, 189, 85, 20);
 		contentPane.add(label_1);
 		
 		passwordtxt = new JPasswordField();
+		passwordtxt.setEchoChar('*');
 		passwordtxt.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
