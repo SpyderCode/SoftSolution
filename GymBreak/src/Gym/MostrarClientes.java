@@ -1,6 +1,7 @@
 package Gym;
 
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.JPanel;
 import java.awt.Label;
@@ -15,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -24,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
@@ -55,6 +58,20 @@ public class MostrarClientes extends JPanel {
 		add(MainPanel);
 		MainPanel.setLayout(null);
 
+		JLabel Ocupaciontxt = new JLabel("");
+		Ocupaciontxt.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		Ocupaciontxt.setBorder(border);
+		Ocupaciontxt.setBounds(833, 173, 223, 28);
+		Ocupaciontxt.setBackground(Color.WHITE);
+		MainPanel.add(Ocupaciontxt);
+
+		JLabel OcupacionLabel = new JLabel("Ocupacion");
+		OcupacionLabel.setForeground(Color.BLACK);
+		OcupacionLabel.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		OcupacionLabel.setBackground(Color.LIGHT_GRAY);
+		OcupacionLabel.setBounds(955, 133, 101, 28);
+		MainPanel.add(OcupacionLabel);
+
 		JLabel label = new JLabel("Numero Telefonico");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 33));
 		label.setBounds(12, 24, 286, 41);
@@ -85,86 +102,9 @@ public class MostrarClientes extends JPanel {
 		tabledatosEntrada = new JTable();
 		tabledatosEntrada.setFont(new Font("Tahoma", Font.PLAIN, textSize));
 		scrollpaneEntradas.setBorder(border);
-		scrollpaneEntradas.setBounds(833, 162, 223, 161);
+		scrollpaneEntradas.setBounds(833, 227, 223, 96);
 		scrollpaneEntradas.getViewport().setBackground(Color.WHITE);
 		MainPanel.add(scrollpaneEntradas);
-
-		JScrollPane scrollPaneClientes = new JScrollPane();
-		scrollPaneClientes.setBorder(border);
-		tabledatos = new JTable();
-		tabledatos.setFont(new Font("Tahoma", Font.PLAIN, textSize));
-		tabledatos.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				try {
-					// String Array de Problemas medicas
-					if (e.getClickCount() == 1) {
-						final JTable jTable = (JTable) e.getSource();
-						final int row = jTable.getSelectedRow();
-
-						NumTely = (Long) jTable.getValueAt(row, 0);
-						posx = principal.lista.buscarPosCliente(NumTely);
-
-						System.out.println(NumTely);
-						String detallesMedicosx = "";
-						for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
-							detallesMedicosx = detallesMedicosx
-									+ principal.lista.clientes.get(posx).getDetallesMedicos().get(i) + "\n";
-						}
-
-						ProbMedicos.setText(detallesMedicosx);
-
-						// Tabla de Entradas
-						int renglon = 0;
-						String[] encabezado = { "Fecha", "Hora" };
-						Object datos[][];
-						if (principal.lista.clientes.get(posx).getEntradas() == null) {// si no tiene, no pone nada
-							datos = new Object[100][100];
-							datos[0][0] = null;
-							datos[0][1] = null;
-						} else {// Si si, enseña el mas reciente primero
-							datos = new Object[principal.lista.clientes.get(posx).getEntradas().size()][];
-							for (int i = principal.lista.clientes.get(posx).getEntradas().size() - 1; i >= 0; i--) {
-								datos[renglon] = new Object[2];
-								datos[renglon][0] = principal.lista.clientes.get(posx).getEntradas().get(i)
-										.getStringFecha();
-								datos[renglon][1] = principal.lista.clientes.get(posx).getEntradas().get(i)
-										.getStringHora();
-								renglon++;
-							}
-						}
-
-						DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
-						tabledatosEntrada.setModel(modelo);
-						scrollpaneEntradas.setViewportView(tabledatosEntrada);
-
-						// Pagos
-						if (pago() == null) {
-							lblDiasFaltantes.setText("");
-							lblUltimoPago.setText("");
-						} else if (pago().diasFaltantes() < 5) {// Si ya casi es el fin de su mensualidad, avisa
-							JOptionPane.showMessageDialog(null, "Ya casi se vence la mensualidad", "Aviso",
-									JOptionPane.INFORMATION_MESSAGE);
-							lblDiasFaltantes.setText("" + pago().diasFaltantes());// Dias Faltantes
-							lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
-						} else {
-							lblDiasFaltantes.setText("" + pago().diasFaltantes());// Dias Faltantes
-							lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
-						}
-
-					}
-				} catch (HeadlessException e1) {
-					JOptionPane.showMessageDialog(null, "Error: " + e1, "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-
-			}
-
-			private PagoCliente pago() {
-				return principal.lista.clientes.get(posx).getPago();
-			}
-		});
-		scrollPaneClientes.setViewportView(tabledatos);
 
 		JButton btnBuscarCliente = new JButton("Buscar Cliente");
 		btnBuscarCliente.addActionListener(new ActionListener() {
@@ -212,13 +152,8 @@ public class MostrarClientes extends JPanel {
 		lblEntradas.setBackground(Color.LIGHT_GRAY);
 		lblEntradas.setForeground(Color.BLACK);
 		lblEntradas.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblEntradas.setBounds(976, 121, 80, 28);
+		lblEntradas.setBounds(976, 200, 80, 28);
 		MainPanel.add(lblEntradas);
-
-		// ScrollPaneClientes
-		scrollPaneClientes.setBounds(12, 159, 781, 316);
-		scrollPaneClientes.getViewport().setBackground(Color.WHITE);
-		MainPanel.add(scrollPaneClientes);
 
 		JLabel lblDiasParaPagar = new JLabel("Dias para pagar");
 		lblDiasParaPagar.setForeground(Color.BLACK);
@@ -309,9 +244,122 @@ public class MostrarClientes extends JPanel {
 		btnElIminarCliente.setBounds(753, 92, 180, 33);
 		MainPanel.add(btnElIminarCliente);
 
+		JScrollPane scrollPaneClientes = new JScrollPane();
+		scrollPaneClientes.setBorder(border);
+		tabledatos = new JTable() {
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+				Component c = super.prepareRenderer(renderer, row, column);
+
+				if (!isRowSelected(row)) {
+					if (tabledatos.getColumnCount() >= 0) {
+						long numTelz = (long) getModel().getValueAt(row, 0);
+						int posz = principal.lista.buscarPosCliente(numTelz);
+						int posUltEnt = principal.lista.clientes.get(posz).getUltimaEntrada();
+						if (posUltEnt == -1) {
+						} else {
+							LocalDate UltimaEntrada = LocalDate
+									.parse(principal.lista.clientes.get(posz).getEntradas().get(posUltEnt).getFecha());
+							LocalDate LastMonth = LocalDate.now().minusMonths(1);
+							if (UltimaEntrada.isBefore(LastMonth)) {
+								c.setBackground(Color.RED);
+							} else {
+								c.setBackground(Color.WHITE);
+							}
+						}
+					}
+				}
+
+				return c;
+			}
+		};
+		tabledatos.setFont(new Font("Tahoma", Font.PLAIN, textSize));
+		tabledatos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				try {
+					// String Array de Problemas medicas
+					if (e.getClickCount() == 1) {
+						final JTable jTable = (JTable) e.getSource();
+						final int row = jTable.getSelectedRow();
+
+						NumTely = (Long) jTable.getValueAt(row, 0);
+						posx = principal.lista.buscarPosCliente(NumTely);
+
+						System.out.println(NumTely);
+						String detallesMedicosx = "";
+						for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
+							detallesMedicosx = detallesMedicosx
+									+ principal.lista.clientes.get(posx).getDetallesMedicos().get(i) + "\n";
+						}
+
+						ProbMedicos.setText(detallesMedicosx);
+
+						// Tabla de Entradas
+						int renglon = 0;
+						String[] encabezado = { "Fecha", "Hora" };
+						Object datos[][];
+						if (principal.lista.clientes.get(posx).getEntradas() == null) {// si no tiene, no pone nada
+							datos = new Object[100][100];
+							datos[0][0] = null;
+							datos[0][1] = null;
+						} else {// Si si, enseña el mas reciente primero
+							datos = new Object[principal.lista.clientes.get(posx).getEntradas().size()][];
+							for (int i = principal.lista.clientes.get(posx).getEntradas().size() - 1; i >= 0; i--) {
+								datos[renglon] = new Object[2];
+								datos[renglon][0] = principal.lista.clientes.get(posx).getEntradas().get(i)
+										.getStringFecha();
+								datos[renglon][1] = principal.lista.clientes.get(posx).getEntradas().get(i)
+										.getStringHora();
+								renglon++;
+							}
+						}
+
+						DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
+						tabledatosEntrada.setModel(modelo);
+						scrollpaneEntradas.setViewportView(tabledatosEntrada);
+
+						// Pagos
+						if (pago() == null) {
+							lblDiasFaltantes.setText("");
+							lblUltimoPago.setText("");
+						} else if (pago().diasFaltantes() < 5) {// Si ya casi es el fin de su mensualidad, avisa
+							JOptionPane.showMessageDialog(null, "Ya casi se vence la mensualidad", "Aviso",
+									JOptionPane.INFORMATION_MESSAGE);
+							lblDiasFaltantes.setText("" + pago().diasFaltantes());// Dias Faltantes
+							lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
+						} else {
+							lblDiasFaltantes.setText("" + pago().diasFaltantes());// Dias Faltantes
+							lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
+						}
+
+						// Ocupacion
+						Ocupaciontxt.setText("" + Ocupacion());
+					}
+				} catch (HeadlessException e1) {
+					JOptionPane.showMessageDialog(null, "Error: " + e1, "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+
+			private Object Ocupacion() {
+				return principal.lista.clientes.get(posx).getOcupacion();
+			}
+
+			private PagoCliente pago() {
+				return principal.lista.clientes.get(posx).getPago();
+			}
+		});
+		scrollPaneClientes.setViewportView(tabledatos);
+
+		// ScrollPaneClientes
+		scrollPaneClientes.setBounds(12, 159, 781, 316);
+		scrollPaneClientes.getViewport().setBackground(Color.WHITE);
+		MainPanel.add(scrollPaneClientes);
+
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(MostrarClientes.class.getResource("/Logos/RedCircle.jpg")));
-		lblBackground.setBounds(120, 0, 931, 933);
+		lblBackground.setBounds(12, 0, 931, 933);
 		MainPanel.add(lblBackground);
 		actualizar();
 	}
@@ -342,8 +390,10 @@ public class MostrarClientes extends JPanel {
 
 			DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
 			tabledatos.setModel(modelo);
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 }

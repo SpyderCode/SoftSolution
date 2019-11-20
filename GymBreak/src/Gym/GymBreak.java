@@ -119,6 +119,8 @@ public class GymBreak {
 			public void actionPerformed(ActionEvent e) {
 
 				aplicarVentana(AñadirClienteJPanel, "Añadir Cliente");
+				AñadirClienteJPanel.txtEdad.setEditable(true);
+				AñadirClienteJPanel.txtNumTel.setEditable(true);
 
 			}
 		});
@@ -139,6 +141,7 @@ public class GymBreak {
 			public void actionPerformed(ActionEvent arg0) {
 
 				aplicarVentana(PagosJPanel, "Pagos");
+				PagosJPanel.NumTeltxt.setEditable(true);
 
 			}
 		});
@@ -156,6 +159,7 @@ public class GymBreak {
 			public void actionPerformed(ActionEvent arg0) {
 
 				aplicarVentana(MostrarClientesJPanel, "Clientes");
+				MostrarClientesJPanel.txtNumTel.setEditable(true);
 
 			}
 		});
@@ -187,6 +191,7 @@ public class GymBreak {
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				aplicarVentana(RegistrarEntradaJPanel, "Registro de Entrada");
+				RegistrarEntradaJPanel.txtNumTel.setEditable(true);
 			}
 		});
 		btnRegistrar.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_clipboard_26px.png")));
@@ -271,11 +276,6 @@ public class GymBreak {
 		try {
 			// Elimina los otros JPanel
 			eleminarall();
-			RegistrarEntradaJPanel.txtNumTel.setEditable(true);
-			PagosJPanel.NumTeltxt.setEditable(true);
-			MostrarClientesJPanel.txtNumTel.setEditable(true);
-			AñadirClienteJPanel.txtEdad.setEditable(true);
-			AñadirClienteJPanel.txtNumTel.setEditable(true);
 
 			// Luego coloca el nuevo JPanel con su tamaño
 			VentanaJPanel.setSize(1137, 548);
@@ -287,7 +287,7 @@ public class GymBreak {
 			frmGymBreak.revalidate();
 			frmGymBreak.repaint();
 			// Debug
-			System.out.println("Exito Aplicar Ventana");
+			System.out.println("Exito Aplicar Ventana: "+VentanaJPanel);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		}

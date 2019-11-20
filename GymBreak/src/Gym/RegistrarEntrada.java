@@ -81,16 +81,22 @@ public class RegistrarEntrada extends JPanel {
 		DatosPanel.setBounds(12, 101, 527, 434);
 		DatosPanel.setLayout(null);
 		MainPanel.add(DatosPanel);
+		
+		JLabel OcupacionLabel = new JLabel("Ocupacion");
+		OcupacionLabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		OcupacionLabel.setBounds(12, 78, 172, 38);
+		DatosPanel.add(OcupacionLabel);
+		
+		JLabel txtOcupacion = new JLabel("");
+		txtOcupacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtOcupacion.setBorder(border);
+		txtOcupacion.setBounds(196, 78, 277, 38);
+		DatosPanel.add(txtOcupacion);
 
 		JLabel Nombrelbl = new JLabel("Nombre");
 		Nombrelbl.setFont(new Font("Tahoma", Font.PLAIN, 33));
 		Nombrelbl.setBounds(12, 24, 133, 38);
 		DatosPanel.add(Nombrelbl);
-
-		JLabel Apellidolbl = new JLabel("Apellido(s)");
-		Apellidolbl.setFont(new Font("Tahoma", Font.PLAIN, 33));
-		Apellidolbl.setBounds(12, 75, 184, 41);
-		DatosPanel.add(Apellidolbl);
 
 		JLabel Edadlbl = new JLabel("Edad");
 		Edadlbl.setFont(new Font("Tahoma", Font.PLAIN, 33));
@@ -118,12 +124,6 @@ public class RegistrarEntrada extends JPanel {
 		Nombretxt.setBorder(border);
 		Nombretxt.setBounds(196, 24, 277, 38);
 		DatosPanel.add(Nombretxt);
-
-		JLabel Apellidotxt = new JLabel("");
-		Apellidotxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		Apellidotxt.setBorder(border);
-		Apellidotxt.setBounds(196, 78, 277, 38);
-		DatosPanel.add(Apellidotxt);
 
 		JLabel Edadtxt = new JLabel("");
 		Edadtxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -189,8 +189,8 @@ public class RegistrarEntrada extends JPanel {
 					}
 
 					// Sets datos en la caja de datos
-					Nombretxt.setText(getCliente(posx).getNombre());
-					Apellidotxt.setText(getCliente(posx).getApellido());
+					Nombretxt.setText(getCliente(posx).getNombre()+" "+getCliente(posx).getApellido());
+					txtOcupacion.setText(""+getCliente(posx).getOcupacion());
 					Edadtxt.setText("" + getCliente(posx).getEdad());
 					Sexotxt.setText("" + getCliente(posx).getSexo());
 					ProbMedicotxt.setText(detallesMedicosx);
@@ -253,7 +253,7 @@ public class RegistrarEntrada extends JPanel {
 
 			private void cleartext() {// Borra las cajas
 				txtNumTel.setText(null);
-				Apellidotxt.setText(null);
+				txtOcupacion.setText(null);
 				DiasFalttxt.setText(null);
 				Edadtxt.setText(null);
 				Nombretxt.setText(null);

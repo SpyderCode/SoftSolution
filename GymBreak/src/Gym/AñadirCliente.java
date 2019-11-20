@@ -10,7 +10,6 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -32,6 +31,7 @@ public class AñadirCliente extends JPanel {
 	private JTextField txtDireccion;
 	private JTextArea txtProbMedicos;
 	int textSize = 18;
+	private JTextField txtOcupacion;
 
 	public AñadirCliente(GymBreak padre) {
 		principal = padre;
@@ -46,7 +46,7 @@ public class AñadirCliente extends JPanel {
 
 		JLabel lblNumeroTel = new JLabel("Numero Telefonico");
 		lblNumeroTel.setFont(new Font("Tahoma", Font.PLAIN, 33));
-		lblNumeroTel.setBounds(12, 222, 277, 41);
+		lblNumeroTel.setBounds(12, 246, 277, 41);
 		MainPanel.add(lblNumeroTel);
 
 		JLabel lblNombre = new JLabel("Nombre");
@@ -71,7 +71,7 @@ public class AñadirCliente extends JPanel {
 
 		JLabel lblDireccion = new JLabel("Direccion");
 		lblDireccion.setFont(new Font("Tahoma", Font.PLAIN, 33));
-		lblDireccion.setBounds(12, 145, 183, 64);
+		lblDireccion.setBounds(12, 186, 183, 64);
 		MainPanel.add(lblDireccion);
 
 		JLabel lblProblemasMedicos = new JLabel("Problemas Medicos");
@@ -95,7 +95,7 @@ public class AñadirCliente extends JPanel {
 			}
 		});
 		txtNumTel.setFont(new Font("Tohoma", Font.PLAIN, textSize));
-		txtNumTel.setBounds(301, 228, 494, 35);
+		txtNumTel.setBounds(301, 252, 494, 35);
 		txtNumTel.setDocument(new JTextLimit(10));
 
 		MainPanel.add(txtNumTel);
@@ -105,7 +105,7 @@ public class AñadirCliente extends JPanel {
 		txtNombre.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
-				char ch=ke.getKeyChar();
+				char ch = ke.getKeyChar();
 				if (!Character.isDigit(ch)) {
 					txtNombre.setEditable(true);
 				} else {
@@ -123,7 +123,7 @@ public class AñadirCliente extends JPanel {
 		txtApellido.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
-				char ch=ke.getKeyChar();
+				char ch = ke.getKeyChar();
 				if (!Character.isDigit(ch)) {
 					txtApellido.setEditable(true);
 				} else {
@@ -176,7 +176,7 @@ public class AñadirCliente extends JPanel {
 		txtDireccion = new JTextField();
 		txtDireccion.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtDireccion.setColumns(10);
-		txtDireccion.setBounds(301, 169, 494, 35);
+		txtDireccion.setBounds(301, 210, 494, 35);
 		txtDireccion.setDocument(new JTextLimit(70));
 		MainPanel.add(txtDireccion);
 
@@ -192,16 +192,22 @@ public class AñadirCliente extends JPanel {
 		MainPanel.add(txtProbMedicos);
 		txtProbMedicos.setColumns(100);
 
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(AñadirCliente.class.getResource("/Logos/Logo_White.jpeg")));
+		label.setBounds(835, 0, 466, 448);
+		MainPanel.add(label);
 
-				// Borra las cajas
-				borrarCajas();
-			}
-		});
-		btnCancelar.setBounds(835, 449, 114, 39);
-		MainPanel.add(btnCancelar);
+		JLabel lblOcupacion = new JLabel("Ocupacion");
+		lblOcupacion.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		lblOcupacion.setBounds(12, 133, 183, 64);
+		MainPanel.add(lblOcupacion);
+
+		txtOcupacion = new JTextField();
+		txtOcupacion.setFont(new Font("Dialog", Font.PLAIN, 18));
+		txtOcupacion.setColumns(10);
+		txtOcupacion.setBounds(301, 157, 494, 35);
+		txtOcupacion.setDocument(new JTextLimit(40));
+		MainPanel.add(txtOcupacion);
 
 		JButton btnAceptra = new JButton("Aceptar");
 		btnAceptra.addActionListener(new ActionListener() {
@@ -224,18 +230,17 @@ public class AñadirCliente extends JPanel {
 
 					String s[] = txtProbMedicos.getText().split("\\r?\\n");
 					ArrayList<String> DetallesMedicosx = new ArrayList<>(Arrays.asList(s));
+					String ocupacionx=txtOcupacion.getText();
 
 					// Crea el cliente
 					Clientes clientex = new Clientes(nombrex, Apellidox, sexox, edadx, NumTelx, direccionx,
 							DetallesMedicosx);
 					clientex.toStringMedicos();
-
+					clientex.setOcupacion(ocupacionx);
 					// Lo añade a la lista principal
 					System.out.println("Añadir cliente before");
 					padre.lista.altaClientes(clientex);
 					padre.save();
-
-
 
 					// Debug
 					System.out.println("Cliente añadido a lista");
@@ -254,10 +259,16 @@ public class AñadirCliente extends JPanel {
 		btnAceptra.setBounds(954, 449, 114, 39);
 		MainPanel.add(btnAceptra);
 
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(AñadirCliente.class.getResource("/Logos/Logo_White.jpeg")));
-		label.setBounds(835, 0, 466, 448);
-		MainPanel.add(label);
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// Borra las cajas
+				borrarCajas();
+			}
+		});
+		btnCancelar.setBounds(835, 449, 114, 39);
+		MainPanel.add(btnCancelar);
 	}
 
 	protected void borrarCajas() {
